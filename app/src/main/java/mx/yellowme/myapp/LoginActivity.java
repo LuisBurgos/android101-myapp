@@ -8,7 +8,9 @@ import android.view.View;
 
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.listeners.OnLoginListener;
+import com.sromku.simple.fb.listeners.OnProfileListener;
 
 import java.util.List;
 
@@ -46,9 +48,13 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onLogin(String accessToken, List<Permission> acceptedPermissions, List<Permission> declinedPermissions) {
-            // change the state of the button or do whatever you want
-            app.registerLogIn();
-            Util.sendAndFinish(LoginActivity.this, MainActivity.class);
+            Profile.Properties properties = new Profile.Properties.Builder()
+                    .add(Profile.Properties.ID)
+                    .add(Profile.Properties.NAME)
+                    .add(Profile.Properties.EMAIL)
+                    .add(Profile.Properties.PICTURE)
+                    .build();
+            mSimpleFacebook.getProfile(properties, onProfileListener);
         }
 
         @Override
@@ -64,6 +70,27 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onException(Throwable throwable) {
             // exception from facebook
+        }
+
+    };
+
+    OnProfileListener onProfileListener = new OnProfileListener() {
+        @Override
+        public void onComplete(Profile profile) {
+            app.registerLogIn(profile);
+            Util.sendAndFinish(LoginActivity.this, MainActivity.class);
+        }
+
+        @Override
+        public  void onThinking(){
+        }
+
+        @Override
+        public void onFail(String reason){
+        }
+        @Override
+        public void onException(Throwable throwable){
+            super.onException(throwable);
         }
 
     };

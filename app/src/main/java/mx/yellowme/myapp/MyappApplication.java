@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
+import com.sromku.simple.fb.entities.Profile;
 
 /**
  * Created by javikin on 6/20/16.
@@ -18,6 +19,12 @@ public class MyappApplication extends Application{
     private SharedPreferences preferences;
 
     private static final String APP_KEY_IS_LOGIN_START = "APP_KEY_IS_LOGIN_START";
+
+    public static final String APP_VALUE_ID = "APP_VALUE_ID";
+    public static final String APP_VALUE_NAME = "APP_VALUE_NAME";
+    public static final String APP_VALUE_EMAIL = "APP_VALUE_EMAIL";
+    public static final String APP_VALUE_PICTURE = "APP_VALUE_PICTURE";
+
 
     Permission[] permissions = new Permission[] {
             Permission.EMAIL
@@ -36,8 +43,12 @@ public class MyappApplication extends Application{
 
     }
 
-    public void registerLogIn(){
+    public void registerLogIn(Profile profile){
         saveValuePreferences(MyappApplication.APP_KEY_IS_LOGIN_START, true);
+        saveValuePreferences(MyappApplication.APP_VALUE_ID, profile.getId());
+        saveValuePreferences(MyappApplication.APP_VALUE_NAME, profile.getName());
+        saveValuePreferences(MyappApplication.APP_VALUE_EMAIL, profile.getEmail());
+        saveValuePreferences(MyappApplication.APP_VALUE_PICTURE, profile.getPicture());
     }
 
     public void registerLogOut(){

@@ -14,16 +14,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import mx.yellowme.fragment.DatePickerFragment;
+import mx.yellowme.util.CircleTransform;
 import mx.yellowme.util.Util;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        DatePickerFragment.NoticeDialogListener{
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     MyappApplication app;
 
@@ -35,27 +40,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         app = (MyappApplication) getApplicationContext();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //app.registerLogOut();
-                //Util.sendAndFinish(MainActivity.this, LoginActivity.class);
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.DATE, 5);
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerFragment dp = DatePickerFragment.newInstance(
-                        calendar.getTime().getTime(), year, month, day
-                );
-                dp.show(getSupportFragmentManager(), "DATEPICKER");
-
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -64,6 +48,23 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        ImageView imageViewProfile = (ImageView) headerView.findViewById(R.id.imageViewProfile);
+        TextView textViewName = (TextView) headerView.findViewById(R.id.textViewName);
+        TextView textViewEmail =(TextView) headerView.findViewById(R.id.textViewEmail);
+
+        String name = app.getStringRegisterValuePreferences(MyappApplication.APP_VALUE_NAME);
+        String email = app.getStringRegisterValuePreferences(MyappApplication.APP_VALUE_EMAIL);
+        String picture = app.getStringRegisterValuePreferences(MyappApplication.APP_VALUE_PICTURE);
+
+        textViewName.setText(name);
+        textViewEmail.setText(email);
+
+        Picasso.with(this).load(picture)
+                .transform(new CircleTransform())
+                .into(imageViewProfile);
+
     }
 
     @Override
@@ -92,8 +93,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "Si hizo click", Toast.LENGTH_LONG).show();
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -104,18 +107,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id){
+            case R.id.nav_option1:
+                Toast.makeText(this, "Opcion 1",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.nav_exit:
+                Toast.makeText(this, "Salir",Toast.LENGTH_LONG).show();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -123,8 +121,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
-
-    }
 }

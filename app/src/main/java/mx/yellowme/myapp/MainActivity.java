@@ -1,9 +1,12 @@
 package mx.yellowme.myapp;
 
 import android.app.DatePickerDialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,12 +26,15 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 import java.util.Date;
 
+import mx.yellowme.fragment.BlankFragment;
 import mx.yellowme.fragment.DatePickerFragment;
+import mx.yellowme.fragment.ListFragment;
 import mx.yellowme.util.CircleTransform;
 import mx.yellowme.util.Util;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener,
+        BlankFragment.OnFragmentInteractionListener {
 
     MyappApplication app;
 
@@ -64,6 +70,16 @@ public class MainActivity extends AppCompatActivity
         Picasso.with(this).load(picture)
                 .transform(new CircleTransform())
                 .into(imageViewProfile);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        ListFragment fragment = ListFragment.newInstance(1);
+        //BlankFragment fragment = BlankFragment.newInstance("Hola Merida");
+        fragmentTransaction.add(R.id.container, fragment);
+        fragmentTransaction.commit();
+
+
 
     }
 
@@ -121,4 +137,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

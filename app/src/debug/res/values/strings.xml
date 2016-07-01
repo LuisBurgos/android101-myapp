@@ -1,0 +1,4 @@
+<resources>
+    <string name="menu_option1">DEBUG OPTION</string>
+    <string name="menu_log_out">EXIT OPTION</string>
+</resources>

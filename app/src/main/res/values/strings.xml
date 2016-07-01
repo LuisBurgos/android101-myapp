@@ -12,4 +12,7 @@
     <string name="facebook_app_authorities">com.facebook.app.FacebookContentProvider874351446003708</string>
     <string name="menu_option1">Opcion 1</string>
     <string name="menu_log_out">Cerrar Sesion</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

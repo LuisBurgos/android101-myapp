@@ -26,6 +26,6 @@ public class SplashActivity extends AppCompatActivity {
                     Util.sendAndFinish(SplashActivity.this, LoginActivity.class);
                 }
             }
-        }, 5000);
+        }, 1000);
     }
 }

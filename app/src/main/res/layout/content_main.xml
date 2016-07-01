@@ -12,4 +12,10 @@
     tools:context="mx.yellowme.myapp.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <fragment android:name="mx.yellowme.fragment.BlankFragment"
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_blank" />
+
 </RelativeLayout>

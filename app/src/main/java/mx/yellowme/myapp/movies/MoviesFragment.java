@@ -30,7 +30,6 @@ public class MoviesFragment  extends Fragment implements MoviesContract.View {
     private MoviesContract.UserActionsListener mActionsListener;
     private ProgressDialog mProgressDialog;
     private MoviesAdapter mAdapter;
-    private MovieItemListener mItemListener;
 
     public MoviesFragment() {
         // Requires empty public constructor

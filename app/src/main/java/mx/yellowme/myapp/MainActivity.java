@@ -29,12 +29,14 @@ import java.util.Date;
 import mx.yellowme.fragment.BlankFragment;
 import mx.yellowme.fragment.DatePickerFragment;
 import mx.yellowme.fragment.ListFragment;
+import mx.yellowme.fragment.dummy.DummyContent;
 import mx.yellowme.util.CircleTransform;
 import mx.yellowme.util.Util;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        BlankFragment.OnFragmentInteractionListener {
+        BlankFragment.OnFragmentInteractionListener,
+        ListFragment.OnListFragmentInteractionListener{
 
     MyappApplication app;
 
@@ -139,6 +141,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
     }
 }

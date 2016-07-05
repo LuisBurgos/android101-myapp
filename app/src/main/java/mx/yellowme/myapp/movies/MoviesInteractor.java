@@ -1,7 +1,11 @@
 package mx.yellowme.myapp.movies;
 
+import android.os.Handler;
 import android.util.Log;
 
+import java.util.ArrayList;
+
+import mx.yellowme.model.Movie;
 import mx.yellowme.model.MoviesResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +27,7 @@ public class MoviesInteractor {
 
         Log.d(TAG, "GETTING MOVIES");
 
-        Call<MoviesResponse> call = apiService.getMovies();
+        /*Call<MoviesResponse> call = apiService.getMovies();
         Log.d(TAG, "ORIGINAL REQ: " + call.request().toString());
 
         call.enqueue(new Callback<MoviesResponse>() {
@@ -45,7 +49,15 @@ public class MoviesInteractor {
                 Log.e(TAG, t.getMessage());
                 callback.onFailedLoad();
             }
-        });
+        });*/
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Movie> movies = new ArrayList<Movie>(FakeMoviesApiService.loadPersistentMovies().values());
+                callback.onMoviesLoaded(movies);
+            }
+        }, 2500);
     }
 
 }

@@ -9,6 +9,14 @@ import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.entities.Profile;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 /**
  * Created by javikin on 6/20/16.
  */
@@ -19,6 +27,7 @@ public class MyappApplication extends Application{
     private SharedPreferences preferences;
 
     private static final String APP_KEY_IS_LOGIN_START = "APP_KEY_IS_LOGIN_START";
+    private static final String BASE_URL = "https://api.airtable.com/v0/applwKu2XWGKdm8wu/";
 
     public static final String APP_VALUE_ID = "APP_VALUE_ID";
     public static final String APP_VALUE_NAME = "APP_VALUE_NAME";
@@ -30,6 +39,8 @@ public class MyappApplication extends Application{
             Permission.EMAIL
     };
 
+    private Retrofit retrofit;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,6 +51,26 @@ public class MyappApplication extends Application{
             .setPermissions(permissions)
             .build();
         SimpleFacebook.setConfiguration(configuration);
+
+		Interceptor interceptor = new Interceptor() {
+			@Override
+			public okhttp3.Response intercept(Chain chain) throws IOException {
+				Request newRequest = chain.request().newBuilder().addHeader("Authorization", " Bearer keyAMRlRwSCZ3KyBW").build();
+				return chain.proceed(newRequest);
+			}
+		};
+
+		OkHttpClient.Builder builder = new OkHttpClient.Builder();
+		builder.interceptors().add(interceptor);
+		OkHttpClient client = builder.build();
+
+
+
+		retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+				.client(client)
+                .build();
 
     }
 

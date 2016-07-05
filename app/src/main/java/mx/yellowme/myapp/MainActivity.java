@@ -1,14 +1,10 @@
 package mx.yellowme.myapp;
 
-import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,22 +12,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.DatePicker;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import mx.yellowme.fragment.BlankFragment;
-import mx.yellowme.fragment.DatePickerFragment;
 import mx.yellowme.fragment.ListFragment;
-import mx.yellowme.fragment.dummy.DummyContent;
+import mx.yellowme.model.Movie;
 import mx.yellowme.util.CircleTransform;
-import mx.yellowme.util.Util;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -145,7 +136,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Movie item) {
 
     }
 }

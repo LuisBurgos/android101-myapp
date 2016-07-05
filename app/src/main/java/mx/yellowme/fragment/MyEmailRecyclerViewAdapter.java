@@ -47,13 +47,16 @@ public class MyEmailRecyclerViewAdapter extends RecyclerView.Adapter<MyEmailRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.mContentView.setText(mValues.get(position).getFields().getName());
+        Movie movie = mValues.get(position);
+        holder.mContentView.setText(movie.getFields().getName());
 
-        Picasso.with(context)
-                .load("http://lorempixel.com/600/300/")
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .into(holder.imageViewPic);
+        if(movie.getFields().getPhotos().size()>0){
+            Picasso.with(context)
+                    .load(movie.getFields().getPhotos().get(0).getUrl())
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .into(holder.imageViewPic);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

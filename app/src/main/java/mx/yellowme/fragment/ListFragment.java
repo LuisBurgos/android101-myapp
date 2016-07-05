@@ -9,11 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
 import mx.yellowme.EndpointInterMoviesface;
 import mx.yellowme.model.Movie;
+import mx.yellowme.model.MoviesResponse;
 import mx.yellowme.myapp.MyappApplication;
 import mx.yellowme.myapp.R;
 import retrofit2.Call;
@@ -76,35 +78,24 @@ public class ListFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
         }
+        loadFromServer();
         return view;
     }
 
     private void loadFromServer(){
         MyappApplication app = (MyappApplication) this.getActivity().getApplicationContext();
         EndpointInterMoviesface apiService = app.getRetrofit().create(EndpointInterMoviesface.class);
-
-        apiService.get
-
-
-
-        Call<List<Proyecto>> call = apiService.getProyectos("proyectos", app.getUserId(),"plataforma");
-        call.enqueue(new Callback<List<Proyecto>>() {
+        Call<MoviesResponse> call = apiService.getMovies();
+        call.enqueue(new Callback<MoviesResponse>() {
             @Override
-            public void onResponse(Call<List<Proyecto>> call, Response<List<Proyecto>> response) {
-                List<Proyecto> proyectos = response.body();
-                projectRecyclerViewAdapter = new ProjectRecyclerViewAdapter(proyectos, new OnListFragmentInteractionListener() {
-                    @Override
-                    public void onListFragmentInteraction(Proyecto proyecto) {
-                        mListener.onListFragmentInteraction(proyecto);
-                    }
-                }, ProjectFragment.this.getActivity());
-                recyclerView.setAdapter(projectRecyclerViewAdapter);
-                progressBar.setVisibility(View.GONE);
-                swiperefresh.setRefreshing(false);
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                MoviesResponse moviesResponse = response.body();
+                loadMovies(moviesResponse.getMovies());
             }
 
             @Override
-            public void onFailure(Call<List<Proyecto>> call, Throwable t) {
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), "Hubo un error", Toast.LENGTH_SHORT).show();
             }
         });
     }

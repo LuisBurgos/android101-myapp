@@ -1,6 +1,5 @@
 package mx.yellowme.myapp.movies;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,8 +14,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import mx.yellowme.fragment.ListFragment;
-import mx.yellowme.fragment.MyEmailRecyclerViewAdapter;
 import mx.yellowme.model.Movie;
 import mx.yellowme.myapp.R;
 import mx.yellowme.util.Injection;

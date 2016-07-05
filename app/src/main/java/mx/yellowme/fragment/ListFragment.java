@@ -10,11 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import mx.yellowme.myapp.R;
-import mx.yellowme.fragment.dummy.DummyContent;
-import mx.yellowme.fragment.dummy.DummyContent.DummyItem;
-
 import java.util.List;
+
+import mx.yellowme.EndpointInterMoviesface;
+import mx.yellowme.model.Movie;
+import mx.yellowme.myapp.MyappApplication;
+import mx.yellowme.myapp.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A fragment representing a list of Items.
@@ -29,6 +33,7 @@ public class ListFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,15 +69,48 @@ public class ListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyEmailRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
+    }
+
+    private void loadFromServer(){
+        MyappApplication app = (MyappApplication) this.getActivity().getApplicationContext();
+        EndpointInterMoviesface apiService = app.getRetrofit().create(EndpointInterMoviesface.class);
+
+        apiService.get
+
+
+
+        Call<List<Proyecto>> call = apiService.getProyectos("proyectos", app.getUserId(),"plataforma");
+        call.enqueue(new Callback<List<Proyecto>>() {
+            @Override
+            public void onResponse(Call<List<Proyecto>> call, Response<List<Proyecto>> response) {
+                List<Proyecto> proyectos = response.body();
+                projectRecyclerViewAdapter = new ProjectRecyclerViewAdapter(proyectos, new OnListFragmentInteractionListener() {
+                    @Override
+                    public void onListFragmentInteraction(Proyecto proyecto) {
+                        mListener.onListFragmentInteraction(proyecto);
+                    }
+                }, ProjectFragment.this.getActivity());
+                recyclerView.setAdapter(projectRecyclerViewAdapter);
+                progressBar.setVisibility(View.GONE);
+                swiperefresh.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<List<Proyecto>> call, Throwable t) {
+            }
+        });
+    }
+
+    private void loadMovies(List<Movie> movies){
+        recyclerView.setAdapter(new MyEmailRecyclerViewAdapter(movies, mListener));
     }
 
 
@@ -105,6 +143,6 @@ public class ListFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Movie item);
     }
 }

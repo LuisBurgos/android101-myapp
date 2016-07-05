@@ -124,4 +124,8 @@ public class MyappApplication extends Application{
     public void setPreferences(SharedPreferences preferences) {
         this.preferences = preferences;
     }
+
+	public Retrofit getRetrofit(){
+		return  retrofit;
+	}
 }

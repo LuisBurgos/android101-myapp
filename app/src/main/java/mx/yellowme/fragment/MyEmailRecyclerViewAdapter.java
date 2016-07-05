@@ -12,11 +12,12 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import mx.yellowme.fragment.ListFragment.OnListFragmentInteractionListener;
 import mx.yellowme.fragment.dummy.DummyContent.DummyItem;
+import mx.yellowme.model.Movie;
 import mx.yellowme.myapp.R;
-
-import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
@@ -25,11 +26,11 @@ import java.util.List;
  */
 public class MyEmailRecyclerViewAdapter extends RecyclerView.Adapter<MyEmailRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Movie> mValues;
     private final OnListFragmentInteractionListener mListener;
     private Context context;
 
-    public MyEmailRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyEmailRecyclerViewAdapter(List<Movie> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -46,7 +47,7 @@ public class MyEmailRecyclerViewAdapter extends RecyclerView.Adapter<MyEmailRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).getFields().getName());
 
         Picasso.with(context)
                 .load("http://lorempixel.com/600/300/")
@@ -75,7 +76,7 @@ public class MyEmailRecyclerViewAdapter extends RecyclerView.Adapter<MyEmailRecy
         public final View mView;
         public final ImageView imageViewPic;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public Movie mItem;
 
         public ViewHolder(View view) {
             super(view);

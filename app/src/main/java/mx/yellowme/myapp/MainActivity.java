@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import mx.yellowme.fragment.BlankFragment;
 import mx.yellowme.fragment.ListFragment;
 import mx.yellowme.model.Movie;
+import mx.yellowme.myapp.movies.MoviesFragment;
 import mx.yellowme.util.CircleTransform;
 
 public class MainActivity extends AppCompatActivity
@@ -67,8 +68,9 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        ListFragment fragment = ListFragment.newInstance(1);
+        //ListFragment fragment = ListFragment.newInstance(1);
         //BlankFragment fragment = BlankFragment.newInstance("Hola Merida");
+        MoviesFragment fragment = MoviesFragment.newInstance();
         fragmentTransaction.add(R.id.container, fragment);
         fragmentTransaction.commit();
 
